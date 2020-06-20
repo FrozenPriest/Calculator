@@ -9,9 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+import kotlin.math.pow
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var textView:TextView;
+    private lateinit var textView:TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -118,7 +119,7 @@ class MainActivity : AppCompatActivity() {
                         '/' -> dA /= dB
                         '*' -> dA *= dB
                         '%' -> dA %= dB
-                        '^' -> dA = Math.pow(dA, dB)
+                        '^' -> dA = dA.pow(dB)
                         else -> throw Exception("Wrong operation $sTmp")
                     }
                     stack.push(dA)
