@@ -3,11 +3,22 @@ package ru.frozenpriest.calculator
 import java.util.*
 import kotlin.math.pow
 
-class Calculator() {
+class Calculator {
 
     fun calculate(expression: String) : Double {
-        val input = generateRPN(expression)
+        val input = generateRPN(prepareExpression(expression))
         return calculateRPN(input)
+    }
+
+    fun prepareExpression(rpn : String) : String {
+        var result = ""
+
+        for(i in rpn.indices) {
+            if(isOp(rpn[i]) && (i == 0 || rpn[i-1] == '('))
+                result +='0'
+            result+=rpn[i]
+        }
+        return result
     }
 
     fun generateRPN(input: String) : String {
@@ -21,6 +32,7 @@ class Calculator() {
                     result+=currentChar
                 }
                 priority == 1 -> {
+
                     stack.push(currentChar)
                 }
                 priority > 1 -> {
@@ -32,6 +44,7 @@ class Calculator() {
                             break
                         }
                     }
+                    if(result.last() != ' ') result += ' '
                     stack.push(currentChar)
                 }
                 priority == -1 -> {
@@ -61,29 +74,26 @@ class Calculator() {
         val stack: Stack<Double> = Stack()
         val st = StringTokenizer(rpn)
         while (st.hasMoreTokens()) {
-            try {
-                sTmp = st.nextToken().trim()
-                if (1 == sTmp.length && isOp(sTmp[0])) {
+            sTmp = st.nextToken().trim()
+            if (1 == sTmp.length && isOp(sTmp[0])) {
 
-                    dB = stack.pop()
-                    dA = stack.pop()
-                    when (sTmp[0]) {
-                        '+' -> dA += dB
-                        '-' -> dA -= dB
-                        '/' -> dA /= dB
-                        '*' -> dA *= dB
-                        '%' -> dA %= dB
-                        '^' -> dA = dA.pow(dB)
-                        else -> throw Exception("Wrong operation $sTmp")
-                    }
-                    stack.push(dA)
-                } else {
-                    dA = sTmp.toDouble()
-                    stack.push(dA)
+                dB = stack.pop()
+                dA = stack.pop()
+                when (sTmp[0]) {
+                    '+' -> dA += dB
+                    '-' -> dA -= dB
+                    '/' -> dA /= dB
+                    '*' -> dA *= dB
+                    '%' -> dA %= dB
+                    '^' -> dA = dA.pow(dB)
+                    else -> throw IllegalArgumentException("Wrong operation $sTmp")
                 }
-            } catch (e: Exception) {
-                throw Exception("Illegal symbol")
+                stack.push(dA)
+            } else {
+                dA = sTmp.toDouble()
+                stack.push(dA)
             }
+
         }
         return stack.pop()
     }

@@ -22,5 +22,6 @@
     <string name="left_bracket">(</string>
     <string name="remainder">%</string>
     <string name="power">^</string>
+    <string name="wrong_expression">Wrong expression!</string>
 
 </resources>

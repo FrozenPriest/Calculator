@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ScrollView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import kotlinx.android.synthetic.main.activity_main.*
@@ -29,32 +30,32 @@ class MainActivity : AppCompatActivity() {
 
     fun calculate(view: View) {
         val valid = isValidInput(textView.text)
-        if(!valid) return
+        if(!valid) {
+            showErrorToast()
+            return
+        }
 
+        try {
+            val result = calculator.calculate(textView.text.toString())
+            textView.append(" = $result")
+            makeCurrentTextView()
+        } catch (e : IllegalArgumentException) {
+            showErrorToast()
+        }
 
-        textView.append(" = ${calculator.calculate(textView.text.toString())}")
-
-
-        makeCurrentTextView()
     }
 
+    private fun showErrorToast() {
+        Toast.makeText(this, R.string.wrong_expression, Toast.LENGTH_LONG).show()
 
-
-//    private fun isOp(c: Char): Boolean {
-//        when (c) {
-//            '-', '+', '*', '/', '^', '%' -> return true
-//        }
-//        return false
-//    }
-
-
+    }
 
 
     fun addOperand(view: View) {
         textView.append((view as Button).text)
     }
 
-    private val regex = Regex("^[(]*([+\\-])?\\d+(([+\\-*/%^])[(]*[-]?\\d+[)]*)*\$")
+    private val regex = Regex("^[(]*([+\\-])?\\d+(([+\\-*/])(\\(-|\\()*\\d+[)]*)*\$")
     private fun isValidInput(text: CharSequence): Boolean {
         if(regex.matches(text)) {
             var counter = 0
