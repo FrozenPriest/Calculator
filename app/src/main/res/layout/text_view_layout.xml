@@ -8,5 +8,5 @@
         android:textSize="30sp"
         android:text=""
         android:textStyle="bold|italic"
-        android:background="@color/colorButton"
+        android:background="@color/colorBackgroundWhite"
     />
