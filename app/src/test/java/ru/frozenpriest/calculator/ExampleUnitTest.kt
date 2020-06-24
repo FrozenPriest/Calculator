@@ -8,9 +8,19 @@ import org.junit.Test
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class ExampleUnitTest {
+class CalculatorUnitTest {
+    @Test
+    fun rpn_isCorrect() {
+        assertEquals("2 2 2 * +", Calculator().generateRPN("2+2*2"))
+    }
+
+    @Test
+    fun calculateRPN_isCorrect() {
+        assertEquals(6.0, Calculator().calculateRPN("2 2 2 * +"), 0.0000001)
+    }
+
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+        assertEquals(4.0, Calculator().calculate("2+2"), 0.0000001)
     }
 }
