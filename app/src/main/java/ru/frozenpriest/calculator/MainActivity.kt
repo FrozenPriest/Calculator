@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         textView.append((view as Button).text)
     }
 
-    private val regex = Regex("^[(]*([+\\-])?\\d+(([+\\-*/])(\\(-|\\()*\\d+[)]*)*\$")
+    private val regex = Regex("^[(]*([+\\-])?\\d(\\.\\d*)*+(([+\\-*/%^])(\\(-|\\()*\\d+(\\.\\d*)*[)]*)*\$")
     private fun isValidInput(text: CharSequence): Boolean {
         if(regex.matches(text)) {
             var counter = 0

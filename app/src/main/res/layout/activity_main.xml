@@ -319,6 +319,7 @@
                 android:textColor="@color/colorButton"
                 android:textSize="25sp"
                 android:textStyle="bold"
+                android:onClick="clickDigit"
                 />
 
             <Button
